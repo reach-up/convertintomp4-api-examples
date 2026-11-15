@@ -1,0 +1,10 @@
+node_modules/
+__pycache__/
+.venv/
+bin/
+obj/
+*.jpg
+*.png
+!fixtures/*.png
+*.zip
+*.webp
