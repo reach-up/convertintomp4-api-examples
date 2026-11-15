@@ -15,11 +15,7 @@ from common import API_URL, SAMPLE_FILE, api, auth_headers
 
 async def main():
     url = API_URL.replace("http", "ws", 1) + "/ws/user/jobs"
-    try:  # websockets >= 14
-        connect = websockets.connect(url, additional_headers=auth_headers())
-    except TypeError:  # older releases
-        connect = websockets.connect(url, extra_headers=auth_headers())
-    async with connect as ws:
+    async with websockets.connect(url, additional_headers=auth_headers()) as ws:
         await ws.recv()  # {"type": "connected"}
         # Start the conversion only once the socket is open, so no event is missed.
         created = await asyncio.to_thread(api, "POST", "/v1/convert", files={"file": ("sample.png", SAMPLE_FILE.read_bytes())}, data={"targetFormat": "jpg"})
